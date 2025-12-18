@@ -1,5 +1,6 @@
 """Database module for Vault."""
 
+import os
 import sqlite3
 from datetime import datetime
 from pathlib import Path
@@ -8,9 +9,15 @@ from typing import Optional
 
 def get_db_path() -> Path:
     """Get the database file path."""
-    vault_dir = Path.home() / ".vault"
+    # Use environment variable if set, otherwise use home directory
+    if os.environ.get('RAILWAY_ENVIRONMENT'):
+        # On Railway, use /app/data directory
+        vault_dir = Path('/app/data')
+    else:
+        # Local development
+        vault_dir = Path.home() / '.vault'
     vault_dir.mkdir(exist_ok=True)
-    return vault_dir / "vault.db"
+    return vault_dir / 'vault.db'
 
 
 def get_connection() -> sqlite3.Connection:
