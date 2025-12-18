@@ -17,7 +17,25 @@ def analyze_portfolio():
     stats = database.get_summary_stats()
 
     if not items:
-        return {"error": "No items in portfolio", "items": [], "total_value": 0}
+        return {
+            "error": "No items in portfolio",
+            "items": [],
+            "total_value": 0,
+            "total_cost": 0,
+            "total_profit": None,
+            "item_count": 0,
+            "total_quantity": 0,
+            "daily_change": 0,
+            "daily_change_pct": 0,
+            "composition": {
+                "cards": {"count": 0, "value": 0, "pct": 0},
+                "sealed": {"count": 0, "value": 0, "pct": 0},
+            },
+            "concentration": {"top_5_value": 0, "top_5_pct": 0, "top_holdings": []},
+            "movers": {"gainers": [], "losers": []},
+            "performers": {"best": [], "worst": []},
+            "sets": [],
+        }
 
     cards = [i for i in items if not i["is_sealed"]]
     sealed = [i for i in items if i["is_sealed"]]
